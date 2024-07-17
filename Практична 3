@@ -1,0 +1,47 @@
+#include <stdio.h> 
+ 
+int main() { 
+    int r; 
+    printf("Введіть число r: "); 
+    scanf("%d", &r); 
+ 
+    if (r < 1) { 
+        printf("0\n"); 
+        return 0; 
+    } 
+ 
+    // Define the dynamic programming table 
+    // dp[length][last_digit][count_of_last_digit] 
+    long long dp[r+1][2][3]; 
+ 
+    // Initialize the table 
+    for (int i = 0; i <= r; i++) { 
+        for (int j = 0; j < 2; j++) { 
+            for (int k = 0; k < 3; k++) { 
+                dp[i][j][k] = 0; 
+            } 
+        } 
+    } 
+ 
+    // Base case for single digit numbers 
+    dp[1][0][1] = 1; // '5' 
+    dp[1][1][1] = 1; // '9' 
+ 
+    // Fill the dynamic programming table 
+    for (int i = 2; i <= r; i++) { 
+        // If the current digit is 5 
+        dp[i][0][1] = dp[i-1][1][1] + dp[i-1][1][2]; // Comes after one or two 9's 
+        dp[i][0][2] = dp[i-1][0][1];                 // Comes after one 5 
+ 
+        // If the current digit is 9 
+        dp[i][1][1] = dp[i-1][0][1] + dp[i-1][0][2]; // Comes after one or two 5's 
+        dp[i][1][2] = dp[i-1][1][1];                 // Comes after one 9 
+    } 
+ 
+    // Sum up the valid numbers of length r 
+    long long result = dp[r][0][1] + dp[r][0][2] + dp[r][1][1] + dp[r][1][2]; 
+ 
+    printf("Кількість чисел із %d розрядів: %lld\n", r, result); 
+ 
+    return 0; 
+}

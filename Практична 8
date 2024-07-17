@@ -1,0 +1,51 @@
+#include <stdio.h> 
+#include <string.h> 
+ 
+// Function to swap two characters 
+void swap(char *a, char *b) { 
+    char temp = *a; 
+    *a = *b; 
+    *b = temp; 
+} 
+ 
+// Function to calculate the factorial of a number 
+int factorial(int n) { 
+    if (n == 0) return 1; 
+    int result = 1; 
+    for (int i = 1; i <= n; i++) { 
+        result *= i; 
+    } 
+    return result; 
+} 
+ 
+// Function to generate and print all permutations of a string 
+void generatePermutations(char *str, int start, int end) { 
+    if (start == end) { 
+        printf("%s\n", str); 
+        return; 
+    } 
+ 
+    for (int i = start; i <= end; i++) { 
+        swap(&str[start], &str[i]); 
+        generatePermutations(str, start + 1, end); 
+        swap(&str[start], &str[i]); // backtrack 
+    } 
+} 
+ 
+int main() { 
+    char str[15]; 
+    printf("Введіть слово: "); 
+    scanf("%s", str); 
+ 
+    int length = strlen(str); 
+    if (length < 1 || length > 14) { 
+        printf("Невірне слово. Довжина слова має бути в діапазоні від 1 до 14.\n"); 
+        return 1; 
+    } 
+ 
+    printf("Кількість анаграм: %d\n", factorial(length)); 
+ 
+    generatePermutations(str, 0, length - 1); 
+ 
+    return 0; 
+}

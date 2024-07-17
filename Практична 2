@@ -1,0 +1,41 @@
+#include <stdio.h> 
+ 
+// Function to calculate the greatest common divisor (GCD) using the Euclidean algorithm 
+int gcd(int a, int b) { 
+    while (b != 0) { 
+        int temp = b; 
+        b = a % b; 
+        a = temp; 
+    } 
+    return a; 
+} 
+ 
+// Function to calculate the least common multiple (LCM) using the GCD 
+int lcm(int a, int b) { 
+    return (a / gcd(a, b)) * b; 
+} 
+ 
+int main() { 
+    int p; 
+     
+    // Read the number of elements 
+    scanf("%d", &p); 
+     
+    int numbers[p]; 
+     
+    // Read the elements 
+    for (int i = 0; i < p; i++) { 
+        scanf("%d", &numbers[i]); 
+    } 
+     
+    // Calculate the LCM of the array 
+    int result = numbers[0]; 
+    for (int i = 1; i < p; i++) { 
+        result = lcm(result, numbers[i]); 
+    } 
+     
+    // Output the result 
+    printf("%d\n", result); 
+     
+    return 0; 
+}

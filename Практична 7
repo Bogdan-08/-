@@ -1,0 +1,79 @@
+#include <stdio.h> 
+#include <math.h> 
+ 
+double calculateDistance(double x1, double y1, double x2, double y2) { 
+    double dx = x2 - x1; 
+    double dy = y2 - y1; 
+    return sqrt(dx * dx + dy * dy); 
+} 
+ 
+int findIntersectionPoints(double x1, double y1, double r1, double x2, double y2, double r2, double *x3, double *y3) { 
+    // Перевірка, чи кола не дотикаються 
+    double distanceBetweenCenters = calculateDistance(x1, y1, x2, y2); 
+    if (distanceBetweenCenters > r1 + r2 || distanceBetweenCenters < fabs(r1 - r2)) { 
+        return 0; // Кола не перетинаються 
+    } else if (distanceBetweenCenters == 0 && r1 == r2) { 
+        return -1; // Нескінченно багато точок перетину (кола збігаються) 
+    } else if (distanceBetweenCenters == r1 + r2 || distanceBetweenCenters == fabs(r1 - r2)) { 
+        // Одна точка перетину (кола дотикаються зовні або зсередини) 
+        double a = (r1 * r1 - r2 * r2 + distanceBetweenCenters * distanceBetweenCenters) / (2 * distanceBetweenCenters); 
+        double h = sqrt(r1 * r1 - a * a); 
+        double x0 = x1 + a * (x2 - x1) / distanceBetweenCenters; 
+        double y0 = y1 + a * (y2 - y1) / distanceBetweenCenters; 
+        *x3 = x0; 
+        *y3 = y0; 
+        return 1; 
+    } 
+ 
+    // Розрахунок параметрів 
+    double a = (r1 * r1 - r2 * r2 + distanceBetweenCenters * distanceBetweenCenters) / (2 * distanceBetweenCenters); 
+    double h = sqrt(r1 * r1 - a * a); 
+ 
+    // Розрахунок координат точок перетину 
+    double x0 = x1 + a * (x2 - x1) / distanceBetweenCenters; 
+    double y0 = y1 + a * (y2 - y1) / distanceBetweenCenters; 
+    double x1_intersect = x0 + h * (y2 - y1) / distanceBetweenCenters; 
+    double y1_intersect = y0 - h * (x2 - x1) / distanceBetweenCenters; 
+    double x2_intersect = x0 - h * (y2 - y1) / distanceBetweenCenters; 
+    double y2_intersect = y0 + h * (x2 - x1) / distanceBetweenCenters; 
+ 
+    // Збереження координат точок перетину 
+    x3[0] = x1_intersect; 
+    y3[0] = y1_intersect; 
+    x3[1] = x2_intersect; 
+    y3[1] = y2_intersect; 
+ 
+    return 2; // Дві точки перетину 
+} 
+ 
+int main() { 
+    // Отримання даних про кола від користувача 
+    double x1, y1, r1, x2, y2, r2; 
+    printf("Введіть координати центру першого кола (x1, y1): "); 
+    scanf("%lf %lf", &x1, &y1); 
+    printf("Введіть радіус першого кола: "); 
+    scanf("%lf", &r1); 
+    printf("Введіть координати центру другого кола (x2, y2): "); 
+    scanf("%lf %lf", &x2, &y2); 
+    printf("Введіть радіус другого кола: "); 
+    scanf("%lf", &r2); 
+ 
+    // Масиви для збереження координат точок перетину 
+    double x3[2], y3[2]; 
+ 
+    // Визначення кількості точок перетину 
+    int numberOfPoints = findIntersectionPoints(x1, y1, r1, x2, y2, r2, x3, y3); 
+ 
+    // Виведення результату 
+    if (numberOfPoints == -1) { 
+        printf("Нескінченно багато точок перетину.\n"); 
+    } else if (numberOfPoints == 0) { 
+        printf("Кола не перетинаються.\n"); 
+    } else if (numberOfPoints == 1) { 
+        printf("Одна точка перетину: (%lf, %lf).\n", x3[0], y3[0]); 
+    } else { 
+        printf("Дві точки перетину: (%lf, %lf) та (%lf, %lf).\n", x3[0], y3[0], x3[1], y3[1]); 
+    } 
+ 
+    return 0; 
+}

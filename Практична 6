@@ -1,0 +1,33 @@
+#include <stdio.h> 
+#include <math.h> 
+ 
+double calculateVectorLength(double x1, double y1, double x2, double y2) { 
+  // Розрахунок різниці координат 
+  double dx = x2 - x1; 
+  double dy = y2 - y1; 
+ 
+  // Розрахунок квадрата довжини вектора 
+  double lengthSquared = dx * dx + dy * dy; 
+ 
+  // Розрахунок довжини вектора 
+  double length = sqrt(lengthSquared); 
+ 
+  return length; 
+} 
+ 
+int main() { 
+  // Отримання координат від користувача 
+  double x1, y1, x2, y2; 
+  printf("Введіть координати початку вектора (x1, y1): "); 
+  scanf("%lf %lf", &x1, &y1); 
+  printf("Введіть координати кінця вектора (x2, y2): "); 
+  scanf("%lf %lf", &x2, &y2); 
+ 
+  // Розрахунок довжини вектора 
+  double length = calculateVectorLength(x1, y1, x2, y2); 
+ 
+  // Виведення довжини вектора 
+  printf("Довжина вектора: %lf\n", length); 
+ 
+  return 0; 
+}

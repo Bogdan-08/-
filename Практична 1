@@ -1,0 +1,18 @@
+#include <stdio.h> 
+ 
+int main() { 
+    double t1, t2, t3; 
+    double total_time; 
+ 
+    // Prompting the user to input three time values 
+    printf("Введіть три значення (час у годинах для кожного гостя):\n"); 
+    scanf("%lf %lf %lf", &t1, &t2, &t3); 
+ 
+    // Calculating the total time using the harmonic mean formula 
+    total_time = 1 / (1 / t1 + 1 / t2 + 1 / t3); 
+ 
+    // Outputting the result rounded to two decimal places 
+    printf("Час, необхідний для з'їдання пирога: %.2f годин\n", total_time); 
+ 
+    return 0; 
+}
